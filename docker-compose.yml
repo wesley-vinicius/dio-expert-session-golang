@@ -1,0 +1,7 @@
+version: "3"
+services:
+  app:
+    image: wesley-vinicius/finance
+    container_name: "app_finance"
+    ports:
+      - 8000:8080
