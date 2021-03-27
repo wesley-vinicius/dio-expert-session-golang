@@ -3,6 +3,7 @@ package transaction
 import "time"
 
 type Transaction struct {
+	Id    int    `json:"id"`
 	Title    string    `json:"title"`
 	Amount   float32   `json:"amount"`
 	Type     int       `json:"type"`

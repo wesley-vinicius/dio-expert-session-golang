@@ -35,11 +35,12 @@ func GetAll() Transactions{
 	var db = connect()
 	defer db.Close()
 
-	rows, _ := db.Query("SELECT title, amount, type, created_at FROM transactions")
+	rows, _ := db.Query("SELECT id ,title, amount, type, created_at FROM transactions")
 	var transactionSlice []Transaction
 	for rows.Next() {
 		var transaction Transaction
-		_ = rows.Scan(&transaction.Title,
+		_ = rows.Scan(&transaction.Id,
+			&transaction.Title,
 			&transaction.Amount,
 			&transaction.Type,
 			&transaction.CreatedAt)
