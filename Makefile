@@ -16,3 +16,6 @@ lint:
 
 code_format:
 	go fmt ./...
+
+mysql:
+	@docker exec -ti mysql mysql --user=dev --password=dev --database=dev

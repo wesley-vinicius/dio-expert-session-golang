@@ -5,3 +5,25 @@ services:
     container_name: "app_finance"
     ports:
       - 8000:8080
+  mysqldb:
+    image: mysql:5.7
+    container_name: mysql
+    environment:
+      - MYSQL_DATABASE=dev
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=dev
+      - MYSQL_PASSWORD=dev
+    ports:
+      - "8989:8989"
+    volumes:
+      - "./.data/db/mysql:/var/lib/mysql"
+    network_mode: "bridge"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    environment:
+      PMA_HOST: mysqldb
+      PMA_USER: dev
+      PMA_PASSWORD: dev
+    ports:
+      - "89:80"
