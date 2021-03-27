@@ -14,8 +14,20 @@ func connect() *sql.DB {
 	return db
 }
 
-func Store(transaction *Transaction) {
+func Store(transaction *Transaction) error {
+	var db = connect()
+	defer db.Close()
 
+	stmt, err := db.Prepare("insert into transactions(title, amount, type, created_at) values (?,?,?,?)")
+	if err != nil {
+		return err
+	}
+	_, err = stmt.Exec(transaction.Title, transaction.Amount, transaction.Type, transaction.CreatedAt)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 

@@ -2,9 +2,7 @@ package transaction
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/wesley-vinicius/planning_finance/model/transaction"
-	"io/ioutil"
 	"net/http"
 )
 
@@ -24,12 +22,19 @@ func CreateTransactions(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
+	var t transaction.Transaction
+	err := json.NewDecoder(r.Body).Decode(&t)
+	if err != nil {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		print(err)
+		return
+	}
+	err = transaction.Store(&t)
 
-	res := transaction.Transactions{}
-	body, _ := ioutil.ReadAll(r.Body)
-
-	_ = json.Unmarshal(body, &res)
-
-	fmt.Print(res)
-
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusCreated)
+	return
 }
